@@ -314,6 +314,119 @@
 </div></blockquote>
 </div>
 </div>
+<div class="exercice admonition">
+<p class="admonition-title">Exemple d’API Web pour le donjon</p>
+<div class="highlight-txt notranslate"><div class="highlight"><pre><span></span>GET / HTTP/1.1
+Host: donjon.com
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 200 Ok
+Content-type: text/plain
+Link: &lt;/salle/1/2&gt;; rel=&quot;http://donjon.com/porte&quot;; title=&quot;porte en fer&quot;
+Link: &lt;/salle/1/3&gt;; rel=&quot;http://donjon.com/porte&quot;; title=&quot;porte en bois&quot;
+Link: &lt;/salle/1/rendu.png&gt;; rel=&quot;alternate&quot;; type=&quot;image/png&quot;
+
+Vous entrez dans une salle avec deux portes : une en fer et une en bois.
+
+====================
+
+GET /salle/1/2 HTTP/1.1
+Host: donjon.com
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 200 Ok
+Content-type = text/plain
+Link: &lt;/salle/1/2/2325&gt;; rel=&quot;http://donjon.com/porte&quot;; title=&quot;le puits&quot;
+Link: &lt;/salle/1/2/1&gt;; title=&quot;Revenir en arrière&quot;; rel=&quot;http://donjon.com/porte&quot;
+
+Vous entrez dans une salle avec un puits au milieu
+
+====================
+
+GET /salle/1/2/2325 HTTP/1.1
+Host: donjon.com
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 200 Ok
+Content-type=text/plain
+Link: &lt;/&gt;; rel=&quot;http://donjon.com/respawn&quot;; title=&quot;Recommencer l&#39;aventure&quot;
+
+Vous dérapez, vous tombez, vous êtes mort !
+</pre></div>
+</div>
+</div>
+<div class="exercice admonition">
+<p class="admonition-title">Exemple d’API Web pour le paiement en ligne</p>
+<div class="highlight-txt notranslate"><div class="highlight"><pre><span></span>POST /payment HTTP/1.1
+Host: bill.com
+Content-type: application/json
+
+{
+    &quot;iban&quot;: &quot;2112313246546578&quot;,
+    &quot;amount&quot;: 30.00,
+    &quot;currency&quot;: &quot;euro&quot;
+}
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 201 Created
+Location: https://bill.com/transaction/123215644-131
+Link: &lt;https://bill.com/transaction/123215644-131/autorisation&gt;; rel=&quot;http://bill.com/autorisation&quot;
+Content-length: 0
+
+======================
+
+POST /transaction/123215644-131/autorisation HTTP/1.1
+Host: bill.com
+Content-type: application/json
+
+{
+    &quot;number&quot;: &quot;1111222233334444&quot;,
+    &quot;crypto&quot;: &quot;111&quot;,
+    &quot;date&quot;: &quot;01/10&quot;
+}
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 201 Created
+Location: https://bill.com/transaction/123215644-131/autorisation/12313215
+Link: &lt;https://bill.com/transaction/123215644-131/autorisation/12313215/capture&gt;; rel=&quot;http://bill.com/capture&quot;
+Content-length: 0
+
+======================
+
+POST /transaction/123215644-131/autorisation/12313215/capture HTTP/1.1
+Host: bill.com
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 201 Created
+Location: https://bill.com/transaction/123215644-131/autorisation/12313215/capture/121212
+</pre></div>
+</div>
+<p>Le cas d’une autorisation qui échoue à cause d’une carte volée :</p>
+<div class="highlight-txt notranslate"><div class="highlight"><pre><span></span>POST /transaction/123215644-131/autorisation HTTP/1.1
+Host: bill.com
+Content-type: application/json
+
+{
+    &quot;number&quot;: &quot;1111222233334444&quot;,
+    &quot;crypto&quot;: &quot;111&quot;,
+    &quot;date&quot;: &quot;01/10&quot;
+}
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+HTTP/1.1 400 Bad request
+Content-type: text/plain
+
+Votre carte est volée. Merci de vous rendre au poste de police le plus proche.
+</pre></div>
+</div>
+</div>
 
 
            </div>
