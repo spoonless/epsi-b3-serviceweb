@@ -427,6 +427,123 @@ Votre carte est volée. Merci de vous rendre au poste de police le plus proche.
 </pre></div>
 </div>
 </div>
+<div class="exercice admonition">
+<p class="admonition-title">TP - API Web de taux de change</p>
+<p>On veut mettre en place un service de taux de change pour la conversion
+entre des devises étrangères l’Euro.</p>
+<p>Il existe deux types de client pour cette API Web. Un type de client
+fournit plusieurs fois par jour le taux de change d’une monnaie vers
+l’Euro. Un autre type de client transmet un montant
+dans une monnaie afin d’obtenir la conversion en euros.</p>
+<p>Les fonctionnalités attendues sont :</p>
+<ul class="simple">
+<li><p>créer ou mettre à jour une monnaie avec son taux de change</p></li>
+<li><p>consulter la monnaie avec son taux de change</p></li>
+<li><p>supprimer une monnaie</p></li>
+<li><p>convertir un montant d’une monnaie en euros</p></li>
+</ul>
+<p>Vous devez implémenter l’API Web en respectant les contraintes suivantes :</p>
+<ul class="simple">
+<li><p>une monnaie doit être une ressource</p></li>
+<li><p>vous devez utiliser le principe de l’hypermédia lorsque cela est utile</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>La norme ISO-4217 définit un code pour chaque monnaie :</p>
+<blockquote>
+<div><p><a class="reference external" href="https://fr.wikipedia.org/wiki/ISO_4217">https://fr.wikipedia.org/wiki/ISO_4217</a></p>
+</div></blockquote>
+</div>
+<p><strong>Livrables attendus</strong></p>
+<blockquote>
+<div><p>Vous devez rendre le projet complet ainsi que <strong>des exemples de requêtes</strong>
+pour montrer l’utilisation de votre API Web.</p>
+</div></blockquote>
+<p><strong>Modèle de projet</strong></p>
+<blockquote>
+<div><blockquote>
+<div><p><code class="xref download docutils literal notranslate"><span class="pre">rest-monnaie.zip</span></code></p>
+</div></blockquote>
+<p>Vous devez partir du modèle de projet ci-dessus pour réaliser l’API Web.</p>
+<p>La base de données peut être créée à partir du script</p>
+<blockquote>
+<div><p><code class="file docutils literal notranslate"><span class="pre">src/main/sql/monnaiedb.sql</span></code></p>
+</div></blockquote>
+<p>La configuration de l’accès à la base de données se trouve dans le fichier</p>
+<blockquote>
+<div><p><code class="file docutils literal notranslate"><span class="pre">src/main/resources/jdbc.properties</span></code></p>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="exercice admonition">
+<p class="admonition-title">TP - Service Web de taux de change</p>
+<p>On veut mettre en place un service de taux de change pour la conversion
+entre des devises étrangères l’Euro.</p>
+<p>Il existe deux types de client pour ce service Web. Un type de client
+fournit plusieurs fois par jour le taux de change d’une monnaie vers
+l’Euro. Un autre type de client transmet un montant
+dans une monnaie afin d’obtenir la conversion en euros.</p>
+<p>Les opérations attendues pour ce service sont :</p>
+<ul class="simple">
+<li><p>créer ou mettre à jour une monnaie avec son taux de change</p></li>
+<li><p>consulter la monnaie avec son taux de change</p></li>
+<li><p>supprimer une monnaie</p></li>
+<li><p>convertir un montant d’une monnaie en euros</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Astuce</p>
+<p>La norme ISO-4217 définit un code pour chaque monnaie :</p>
+<blockquote>
+<div><p><a class="reference external" href="https://fr.wikipedia.org/wiki/ISO_4217">https://fr.wikipedia.org/wiki/ISO_4217</a></p>
+</div></blockquote>
+</div>
+<p><strong>Livrables attendus</strong></p>
+<blockquote>
+<div><p>Vous devez rendre le projet complet. Il doit contenir <strong>l’application Web</strong>
+ainsi qu’un <strong>programme client Java d’exemple</strong>. Ce programme doit
+appeler chaque opération du service pour montrer leur bon fonctionnement.</p>
+</div></blockquote>
+<p><strong>Modèle de projet</strong></p>
+<blockquote>
+<div><blockquote>
+<div><p><code class="xref download docutils literal notranslate"><span class="pre">ws-monnaie.zip</span></code></p>
+</div></blockquote>
+<p>Vous devez partir du modèle de projet ci-dessus pour réaliser l’API Web.
+Ce projet utilise à la fois l’implémentation de référence JAX-WS
+de Sun ainsi que le Spring Framework. Pour une intégration des deux
+<em>frameworks</em>, le projet fournit l’annotation <code class="docutils literal notranslate"><span class="pre">&#64;WebServiceController</span></code>.
+Cette annotation doit être ajoutée sur vos classes Java qui portent
+l’annotation <code class="docutils literal notranslate"><span class="pre">&#64;WebService</span></code> afin de les transformer en composants Spring.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Exemple d’utilisation de l’annotation &#64;WebServiceController</span><a class="headerlink" href="#id1" title="Lien permanent vers ce code">¶</a></div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">fr.epsi.b3.monnaie.webservice</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+
+<span class="nd">@WebServiceController</span>
+<span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span><span class="o">=</span><span class="s">&quot;fr.epsi.b3.monnaie.webservice.MonnaieService&quot;</span><span class="o">,</span>
+            <span class="n">targetNamespace</span><span class="o">=</span><span class="s">&quot;http://epsi.fr/b3/ws/monnaie&quot;</span><span class="o">,</span>
+            <span class="n">serviceName</span><span class="o">=</span><span class="s">&quot;MonnaieService&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MonnaieServiceImpl</span> <span class="kd">implements</span> <span class="n">MonnaieService</span> <span class="o">{</span>
+
+    <span class="c1">// ....</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>Grâce à cette annotation, votre classe de service pourra bénéficier
+de l’injection de dépendance par Spring.</p>
+<p>La base de données peut être créée à partir du script</p>
+<blockquote>
+<div><p><code class="file docutils literal notranslate"><span class="pre">src/main/sql/monnaiedb.sql</span></code></p>
+</div></blockquote>
+<p>La configuration de l’accès à la base de données se trouve dans le fichier</p>
+<blockquote>
+<div><p><code class="file docutils literal notranslate"><span class="pre">src/main/resources/jdbc.properties</span></code></p>
+</div></blockquote>
+</div></blockquote>
+</div>
 
 
            </div>
